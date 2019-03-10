@@ -1,0 +1,46 @@
+---
+title: "Diem thi THPPT 2018"
+author: "Mai Ng"
+date: "August 13, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r lib, include=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+```{r data, include=FALSE}
+national <- read.csv("/Users/mainguyen/datatalk/diem_thi_THPT_2018/THPT 2018 Quoc gia.csv", header=TRUE)
+hg <- read.csv("/Users/mainguyen/datatalk/diem_thi_THPT_2018/THPT 2018 Ha Giang.csv", header=TRUE)
+
+```
+
+
+```{r}
+str(national)
+```
+
+```{r}
+summary(national)
+```
+
+```{r plot, include=TRUE}
+df_long <- gather(national, "subject", "score", 3:17) %>%
+  filter(subject != "X")
+df_long$score_num <- as.numeric(df_long$score, na.rm=TRUE)
+str(df_long)
+hist <- ggplot(df_long, aes(x=score)) +
+  geom_histogram(stat="count") +
+  facet_grid(subject ~ .) 
+
+hist
+
+#  geom_histogram()
+```
+
